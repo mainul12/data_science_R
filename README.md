@@ -12,3 +12,8 @@ distinct() ##function from the dplyr package
 ```R
 select(df,`Column Name`)
 ```
+* view all columns of a dataframe in a Jupyter Notebook
+```R
+options(repr.matrix.max.rows = 100)
+options(repr.matrix.max.cols = 30)
+```
