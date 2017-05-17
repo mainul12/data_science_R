@@ -8,5 +8,5 @@ The R Programming Environment and R projects
 * selecting column names that have spaces
 
 ```R
-select(df,\`Column Name\`)
+select(df,`Column Name`)
 ```
