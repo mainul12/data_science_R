@@ -2,7 +2,9 @@
 The R Programming Environment and R projects
 
 * Finding unique values of a column in R or retain only unique/distinct rows from an input tbl
+
 `distinct()` function from the dplyr package
 
 * selecting column names that have spaces
-`select(df,\`Column Name\`)`
+
+`R select(df,\`Column Name\`)`
