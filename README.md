@@ -17,3 +17,9 @@ select(df,`Column Name`)
 options(repr.matrix.max.rows = 100)
 options(repr.matrix.max.cols = 30)
 ```
+
+* changing plot size in Jupyter notbook
+
+```R
+options(repr.plot.width = 6, repr.plot.height = 4)
+```
