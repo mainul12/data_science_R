@@ -1,0 +1,125 @@
+---
+title: "Work"
+author: "Mainul Islam"
+date: "6/12/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(reticulate)
+```
+## Where to Start
+
+My statistical and machine learning work always begins with a dataset. This is not to say, however, that the starting point is **always** a dataset. A dataset may be available or not. 
+
+If available, the first step would be to conduct exploratory data analysis using data visualization. What tools are used and what questions we seek answers to will always depend on and is limited by what is important to us- what we want to know. Data by itself does not solve anything or does not make itself known. To put it simply, clues do not just jump out at Sherlock Holmes- he has to have some initial hypotheses and those guide him where he should look. And in the end what we seek is to learn something new- it could be a new way of classifying things, a new cause and effect relationship which we can then use to take actions. 
+
+What matters to us determines what we collect data on.
+
+Brief examples of exploratory data analysis is presented below: 
+
+## Imaginary Scenario 1: 
+A shoe manufacturer wants to ensure only shoes of the required size is exported to various regions. So he/she collects data on three different regions and checks if there is a difference in feet length among the people of the regions. 
+
+
+A portion of the collected data looks as below. People were selected randomly and their region and feet size was recorded:  
+
+**note: the data was randomly generated**
+
+```{r, echo=FALSE}
+library(wakefield)
+library(ggplot2)
+
+regions <- r_sample_factor(x = c("Dhaka", "Chittagong", "Rajshahi"), n=1000)
+regions <- sort(regions)
+shoe_size_Dhaka <- rnorm(325, 10, sd = 3)
+shoe_size_Chittagong <- rnorm(337, mean = 7, sd = 2)
+shoe_size_Rajshahi <- rnorm(338, mean = 5, sd = 2.4)
+shoe_size <- c(shoe_size_Dhaka, shoe_size_Chittagong, shoe_size_Rajshahi)
+df <- data.frame(area = regions, size = shoe_size)
+rows <- sample(nrow(df))
+
+df2 <- df[rows, ]
+
+head(df2)
+
+ggplot(data = df2) + 
+    geom_boxplot(mapping = aes(x = area, y = size))
+```
+
+Boxplots of feet size is plotted based on region. 
+The plots show that there *is* a difference in feet length among the people of the different regions. (S)he can now decide to export only shoes of certain size to the three different regions. 
+
+\newpage
+The next question he/she asks is: what range of size shoes should be exported to each of these regions? 
+
+
+Taking a closer look at Dhaka we see that most of the people of Dhaka has feet size between the values of 1st quartile and 3rd quartile.
+
+```{r echo=FALSE, include=FALSE,out.width="50%"}
+library(dplyr)
+```
+```{r echo=FALSE}
+ggplot(data = df2 %>% filter(area == "Dhaka")) + 
+    geom_histogram(mapping = aes(x = size), fill = "orange", color = "black", bins = 100)
+summary(df2 %>% filter(area == "Dhaka"))
+```
+A wise decision would be to send shoes of size ranging from the 1st quartile to the 3rd quartile because that range contains the most of the feet sizes.
+
+Similar statistics can be fished out for the two other regions. 
+
+Only two explorations from one scenario is presented here because the explorations and statistical tests depend on what we want to know. 
+
+\newpage
+## Machine Learning
+How do human beings learn? What does it mean when we say we learn? The following is an extensive quote from Robert Pirsig's book **Zen and the Art of Motorcycle Maintenance** to explain machine learning in simple terms:
+
+"...the division of the world into parts and the building of this structure, is
+something everybody does. All the time we are aware of millions of things around us...aware of these things but not really conscious of them unless there is something unusual or unless they reflect something we are predisposed to see. We could not possibly be conscious of these things and remember all of them because our mind would be so full of useless details we would be unable to think. From all this awareness we must select, and what we select and call consciousness is never the same as the awareness because the process of selection mutates it. We take a handful of sand from the endless landscape of awareness around us and call that handful of sand the world.
+
+Once we have the handful of sand, the world of which we are conscious, a process of discrimination goes to work on it. This is the knife. **We divide the sand into parts. This and that. Here and there. Black and white. Now and then. The discrimination is the division of the conscious universe into parts.**"
+
+*Note: A branch of machine learning named unsupervised learning is called clustering and clustering does precisely that- division of a dataset into categories which perhaps we are missing.*
+
+"The handful of sand looks uniform at first, but the longer we look at it the more diverse we find it to be.
+Each grain of sand is different. No two are alike. Some are similar in one way, some are similar in another way, and we can form the sand into separate piles on the basis of this similarity and dissimilarity. Shades of color in different piles...sizes in different piles...grain shapes in different piles...subtypes of grain shapes in different piles...grades of opacity in different piles...and so on, and on, and on. You'd think the process of subdivision and classification would come to an end somewhere, but it doesn't. It just goes on and on."
+
+*Note: another part of machine learning is called supervised learning and it does precisely that- classifying individuals into different categories.*
+
+There are many different machine learning algorithms and they are used based on what we need to know. We might have a dataset but we do not know how to start dividing it into parts. We then use a clustering algorithm to find clusters in the data. 
+
+\newpage
+
+A simple but often used supervised machine learning algorithm called Linear Regression is illustrated below:
+
+```{python, echo=FALSE,  out.width="50%"}
+import numpy as np
+import matplotlib.pyplot as plt
+
+from numpy.random import default_rng
+rng = default_rng()
+x = np.linspace(-10, 20, num=1000)
+y = 2*x + 3  + rng.normal(0,3, size = len(x))
+plt.scatter(x, y)
+```
+
+What we intend to do is model the data using a straight line so that we can predict the values of the dependent variable. 
+
+```{python, echo=FALSE, out.width="50%"}
+from sklearn.linear_model import LinearRegression
+linear_model = LinearRegression()
+linear_model.fit(x.reshape(-1,1), y.reshape(-1,1))
+linear_model.coef_
+linear_model.intercept_
+pred = linear_model.predict(x.reshape(-1,1))
+plt.scatter(x, y)
+plt.scatter(x, pred)
+```
+
+To put it simply the computer looked at the data and then drew the orange line through the dataset. Using that line we can now predict values on the y-axis using values on the x-axis.
+
+The above was a very very brief demonstration of exploratory data analysis and machine learning and statistical inference test was excluded because I did not want to include random facts. I hope I shall present a better picture of what we need based on further discussions and setting of priorities. 
+
+
+
